@@ -66,11 +66,11 @@
             echo "Enter fuel consumption: ";
             $fuelConsumption = trim(fgets(STDIN));
 
-            if ($type == 1) { // Car
+            if ($type == 1) {
                 echo "Enter seats: ";
                 $seats = trim(fgets(STDIN));
                 $vehicle = new Car($brand, $model, $fuelConsumption, $seats);
-            } elseif ($type == 2) { // Truck
+            } elseif ($type == 2) {
                 echo "Enter max capacity: ";
                 $max_capacity = trim(fgets(STDIN));
                 $vehicle = new Truck($brand, $model, $fuelConsumption, $max_capacity);
