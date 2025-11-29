@@ -5,6 +5,7 @@
 
 <?php 
 
+
 abstract class Vehicle {
     public $brand;
     public $model;
@@ -22,14 +23,8 @@ class Car extends Vehicle {
     public $seats;
 
     public function __construct($brand, $model, $fuelConsumption, $seats) {
-       $this->brand = $brand;
-       $this->model = $model;
-       $this->fuelConsumption = $fuelConsumption;
-       $this->seats = $seats;
-    }
-
-    public function name () {
-        return $this->model;
+        parent::__construct($brand, $model, $fuelConsumption);        
+        $this->seats = $seats;
     }
 }
 
@@ -37,15 +32,48 @@ class Truck extends Vehicle{
     public $max_capacity;
 
     public function __construct($brand, $model, $fuelConsumption, $max_capacity) {
-       $this->brand = $brand;
-       $this->model = $model;
-       $this->fuelConsumption = $fuelConsumption;
-       $this->max_capacity = $max_capacity;
+        parent::__construct($brand, $model, $fuelConsumption);        
+        $this->max_capacity = $max_capacity;
     }
 }
 
-$newCar = new Car('PCarP', "Volvo", 22, 55);
-$newTruck = new Truck('STruckS', "BMW", 90, 120);
+class FleetManager {
+    private $vehicles = [];
+
+
+    public function run() {
+        $running = true;
+
+        while ($running) {
+            echo "1. Add new vehicle\n";
+            echo "2. Show all vehicles\n";
+            echo "3. Calculate average fuel consumption\n";
+            echo "4. Filter by vehicle type\n";
+            echo "5. Exit\n";
+            echo "Choose option: "; 
+                
+            $choice = trim(fgets(STDIN));
+
+            switch ($choice) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    $running = false;
+                    echo "Program ended by the user";
+                    break;
+            }
+        }
+    }  
+}
+
+$fleet = new FleetManager();
+$fleet->run()
 
 
 
