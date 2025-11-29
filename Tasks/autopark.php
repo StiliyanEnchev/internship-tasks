@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-
-
     <?php
     $running = true;
 
@@ -59,7 +57,6 @@
 
         public function add_new_vehicle($type)
         {
-
             echo "Enter brand: ";
             $brand = trim(fgets(STDIN));
 
@@ -69,48 +66,62 @@
             echo "Enter fuel consumption: ";
             $fuelConsumption = trim(fgets(STDIN));
 
-            if ($type == "car") {
+            if ($type == 1) { // Car
                 echo "Enter seats: ";
                 $seats = trim(fgets(STDIN));
-
                 $vehicle = new Car($brand, $model, $fuelConsumption, $seats);
-                $this->vehicles[] = $vehicle;
-            } elseif ($type == "truck") {
+            } elseif ($type == 2) { // Truck
                 echo "Enter max capacity: ";
                 $max_capacity = trim(fgets(STDIN));
-
                 $vehicle = new Truck($brand, $model, $fuelConsumption, $max_capacity);
-                $this->vehicles[] = $vehicle;
+            } else {
+                echo "Unknown type!\n";
+                return;
             }
 
+            $this->vehicles[] = $vehicle;
             echo "Vehicle added!\n";
         }
 
-
-        function display_all_vehicles()
+        public function display_all_vehicles()
         {
             foreach ($this->vehicles as $vehicle) {
                 echo $vehicle->name() . "\n";
             }
         }
 
-        function fuel_consumption()
+        public function fuel_consumption()
         {
-            $total_consumption = 0;
-            foreach ($this->vehicles as $vehicle) {
-                $total_consumption += $vehicle->fuel_consumption;
+            if (count($this->vehicles) === 0) {
+                echo "No vehicles to calculate consumption.\n";
+                return;
             }
 
-            echo $total_consumption;
+            $total_consumption = 0;
+            foreach ($this->vehicles as $vehicle) {
+                $total_consumption += $vehicle->fuelConsumption;
+            }
+
+            $average = $total_consumption / count($this->vehicles);
+            echo "Average fuel consumption is: $average\n";
+        }
+
+        public function get_filtered_vehicles($type)
+        {
+            foreach ($this->vehicles as $vehicle) {
+                if (($type == 1 && $vehicle instanceof Car) ||
+                    ($type == 2 && $vehicle instanceof Truck)
+                ) {
+                    echo $vehicle->name() . "\n";
+                }
+            }
         }
     }
 
     $fleet = new FleetManager();
 
-
-
     while ($running) {
-        echo "1. Add new vehicle\n";
+        echo "\n1. Add new vehicle\n";
         echo "2. Show all vehicles\n";
         echo "3. Calculate average fuel consumption\n";
         echo "4. Filter by vehicle type\n";
@@ -121,35 +132,47 @@
 
         switch ($choice) {
             case 1:
-                echo "Type 1 for Car or 2 for Truck: \n";
+                echo "Type 1 for Car or 2 for Truck: ";
                 $type = trim(fgets(STDIN));
-
                 if ($type != 1 && $type != 2) {
                     echo "Type not allowed\n";
                     break;
                 }
-
-                $typeName = ($type == 1) ? "car" : "truck";
-                $fleet->add_new_vehicle($typeName);
+                $fleet->add_new_vehicle($type);
                 break;
 
             case 2:
                 $fleet->display_all_vehicles();
                 break;
+
             case 3:
                 $fleet->fuel_consumption();
                 break;
+
             case 4:
+                echo "Type 1 for Car or 2 for Truck: ";
+                $type = trim(fgets(STDIN));
+                if ($type != 1 && $type != 2) {
+                    echo "Type not allowed\n";
+                    break;
+                }
+                $fleet->get_filtered_vehicles($type);
                 break;
+
             case 5:
                 $running = false;
-                echo "Program ended by the user";
+                echo "Program ended by the user\n";
                 break;
+
+            default:
+                echo "Invalid choice!\n";
         }
     }
 
     ?>
-
 </head>
 
 <body>
+</body>
+
+</html>
