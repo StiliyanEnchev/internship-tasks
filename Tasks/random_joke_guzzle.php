@@ -1,13 +1,19 @@
 <?php
+require 'vendor/autoload.php';
 
 $running = true;
 $url = "https://official-joke-api.appspot.com/jokes/random";
 
+
 while ($running) {
-    global $url;
-    
-    $response = file_get_contents($url);
-    $data = json_decode($response, true);
+
+    $client = new \GuzzleHttp\Client();
+
+    $response = $client->request('GET', $url, options: [
+        "verify" => false
+    ]);
+
+    $data = json_decode($response->getBody(), true);
 
     $setup = $data['setup'];
     $punchline = $data['punchline'];
