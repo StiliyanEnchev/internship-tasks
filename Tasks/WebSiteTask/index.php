@@ -25,5 +25,3 @@ file_put_contents(
     'news.json',
     json_encode($news, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
 );
-
-echo "Готово! Новините са записани в news.json\n";
