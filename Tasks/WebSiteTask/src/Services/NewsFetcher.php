@@ -36,7 +36,8 @@ class NewsFetcher
                 $articles[] = new NewsArticle(
                     $item['title'] ?? 'No title',
                     $item['source']['name'] ?? 'Unknown',
-                    $item['url'] ?? ''
+                    $item['url'] ?? '',
+                    $item['urlToImage'] ?? null
                 );
             }
 
